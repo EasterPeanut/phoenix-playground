@@ -23,7 +23,9 @@ defmodule PlaygroundWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PlaygroundWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PlaygroundWeb do
+    pipe_through :api
+
+    get "/embed/:id", EmbedController, :index
+  end
 end
