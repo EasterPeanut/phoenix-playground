@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "editor": "file:~/projects/editor",
+    "editor_git": "git+ssh://git@github.com:sn3p/editor.git#24d3f8a30cdf7b14f2c880b79502a90bc369d161",
+    "vue": "^3.2.6"
+  }
+}
