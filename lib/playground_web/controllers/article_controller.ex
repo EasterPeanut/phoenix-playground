@@ -15,6 +15,13 @@ defmodule PlaygroundWeb.ArticleController do
   end
 
   def create(conn, %{"article" => article_params}) do
+    content_json = article_params["content_json"]
+
+    article_params =
+      if content_json,
+        do: %{article_params | "content_json" => Jason.decode!(content_json)},
+        else: article_params
+
     case Learnables.create_article(article_params) do
       {:ok, article} ->
         conn
@@ -38,6 +45,13 @@ defmodule PlaygroundWeb.ArticleController do
   end
 
   def update(conn, %{"id" => id, "article" => article_params}) do
+    content_json = article_params["content_json"]
+
+    article_params =
+      if content_json,
+        do: %{article_params | "content_json" => Jason.decode!(content_json)},
+        else: article_params
+
     article = Learnables.get_article!(id)
 
     case Learnables.update_article(article, article_params) do

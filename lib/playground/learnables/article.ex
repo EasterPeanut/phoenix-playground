@@ -4,7 +4,13 @@ defmodule Playground.Learnables.Article do
 
   schema "articles" do
     field :title, :string
-    field :content_json, :map, default: %{type: "doc", content: [%{type: "paragraph"}]}
+
+    field :content_json, :map,
+      default: %{
+        type: "doc",
+        content: [%{type: "paragraph", content: [%{type: "text", content: ""}]}]
+      }
+
     field :content_html, :string
 
     timestamps()
