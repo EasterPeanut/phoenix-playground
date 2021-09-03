@@ -25,6 +25,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import Editor from "editor";
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
@@ -33,6 +34,24 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
+
+// initialize Vue Editor
+const el = document.getElementById("editor")
+
+if (el) {
+  const vueEditor = Editor.init(el, { content: JSON.parse(el.dataset.content)});
+
+  const articleForm = document.getElementById("article_form")
+  const articleSubmitButton = document.getElementById("article_submit")
+  const contentHiddenJsonField = document.getElementById("article_form_content_json")
+  const contentHiddenHtmlField = document.getElementById("article_form_content_html")
+
+  articleSubmitButton.addEventListener("click", () => {
+    contentHiddenJsonField.setAttribute("value", JSON.stringify(vueEditor.getJSON()))
+    contentHiddenHtmlField.setAttribute("value", vueEditor.getHTML())
+    articleForm.submit()
+  })
+}
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()
